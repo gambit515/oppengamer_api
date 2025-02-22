@@ -9,7 +9,7 @@ services:
       POSTGRES_USER: gambit  # Пользователь базы данных
       POSTGRES_PASSWORD: 316316  # Пароль пользователя
     ports:
-      - "5433:5432"  # Открытие порта для PostgreSQL
+      - "5433:5433"  # Открытие порта для PostgreSQL
     volumes:
       - postgres_data:/var/lib/postgresql/data  # Хранилище данных PostgreSQL
 
@@ -24,7 +24,7 @@ services:
       - db  # Запуск контейнера Django после PostgreSQL
     environment:
       - DJANGO_SETTINGS_MODULE=oppengamer_api.settings  # Настройки Django
-      - DATABASE_URL=postgres://gambit:316316@db:5432/DB  # URL базы данных
+      - DATABASE_URL=postgres://gambit:316316@db:5433/DB  # URL базы данных
 
 volumes:
   postgres_data:  # Объем для хранения данных PostgreSQL
