@@ -4,7 +4,7 @@ from django.db import models
 class Group(models.Model):
     name = models.CharField(max_length=255, unique=True)  # Название группы
     description = models.TextField(blank=True, null=True)  # Описание группы
-    chat_id = models.BigIntegerField(null=True, blank=True)  # ID чата Telegram
+    chat = models.BigIntegerField(null=True, blank=True)  # ID чата Telegram
 
     def __str__(self):
         return self.name
