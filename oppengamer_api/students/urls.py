@@ -11,6 +11,7 @@ from .views import (
 urlpatterns = [
     # Маршруты для студентов
     path('student/<int:telegram_id>/', GetStudentByTelegramId.as_view(), name='get_student_by_telegram_id'),
+    path('student/id/<int:telegram_id>/', GetStudentById.as_view(), name='get_student_by_id'),
     path('is_authorized/<int:telegram_id>/', IsAuthorizedStudent.as_view(), name='is_authorized_student'),
     path('activate/', ActivateStudent.as_view(), name='activate_student'),
 

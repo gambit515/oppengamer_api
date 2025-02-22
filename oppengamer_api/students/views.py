@@ -82,6 +82,17 @@ class GetStudentByTelegramId(APIView):
         except Student.DoesNotExist:
             return Response({"error": "Student not found"}, status=status.HTTP_404_NOT_FOUND)
 
+
+class GetStudentById(APIView):
+    def get(self, request, student_id):
+        try:
+            student = Student.objects.get(id=student_id)
+            serializer = StudentSerializer(student)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        except Student.DoesNotExist:
+            return Response({"error": "Student not found"}, status=status.HTTP_404_NOT_FOUND)
+
+
 # Проверка авторизации студента
 class IsAuthorizedStudent(APIView):
     def get(self, request, telegram_id):
