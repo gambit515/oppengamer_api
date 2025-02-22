@@ -5,6 +5,7 @@ from .views import (
     ActivateStudent,
     GetGroups,
     CreateGroup,
+    UpdateGroup
 )
 
 urlpatterns = [
@@ -16,4 +17,5 @@ urlpatterns = [
     # Маршруты для групп
     path('groups/', GetGroups.as_view(), name='get_groups'),
     path('create_group/', CreateGroup.as_view(), name='create_group'),
+    path('group/<int:group_id>/', UpdateGroup.as_view(), name='update_group'),
 ]

@@ -1,8 +1,10 @@
 from django.db import models
 
+
 class Group(models.Model):
     name = models.CharField(max_length=255, unique=True)  # Название группы
     description = models.TextField(blank=True, null=True)  # Описание группы
+    chat_id = models.BigIntegerField(null=True, blank=True)  # ID чата Telegram
 
     def __str__(self):
         return self.name
@@ -26,3 +28,12 @@ class Student(models.Model):
     @property
     def full_name(self):
         return f"{self.surname} {self.name} {self.patronymic or ''}".lower()
+
+
+class AttendanceRecord(models.Model):
+    group = models.ForeignKey(Group, on_delete=models.CASCADE, related_name='attendance_records')
+    student = models.ForeignKey(Student, on_delete=models.CASCADE)
+    timestamp = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.student} in {self.group} at {self.timestamp}"
