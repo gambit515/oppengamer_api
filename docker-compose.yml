@@ -9,7 +9,7 @@ services:
       POSTGRES_USER: gambit  # Пользователь базы данных
       POSTGRES_PASSWORD: 316316  # Пароль пользователя
     ports:
-      - "5432:5432"  # Открытие порта для PostgreSQL
+      - "5433:5432"  # Открытие порта для PostgreSQL
     volumes:
       - postgres_data:/var/lib/postgresql/data  # Хранилище данных PostgreSQL
 
@@ -19,7 +19,7 @@ services:
     volumes:
       - .:/app  # Синхронизация кода между хостом и контейнером
     ports:
-      - "8000:8000"  # Открытие порта для Django
+      - "8001:8000"  # Открытие порта для Django
     depends_on:
       - db  # Запуск контейнера Django после PostgreSQL
     environment:
