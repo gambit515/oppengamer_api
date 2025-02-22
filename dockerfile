@@ -16,3 +16,4 @@ CMD ["python", "oppengamer_api/manage.py", "migrate"]
 
 # Запуск сервера Django
 CMD ["python", "oppengamer_api/manage.py", "runserver", "0.0.0.0:8000"]
+

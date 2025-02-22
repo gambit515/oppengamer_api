@@ -1,30 +1,28 @@
 version: '3.8'
-
 services:
   db:
     image: postgres:14
     restart: always
     environment:
-      POSTGRES_DB: DB  # Название базы данных
-      POSTGRES_USER: gambit  # Пользователь базы данных
-      POSTGRES_PASSWORD: 316316  # Пароль пользователя
+      POSTGRES_DB: DB
+      POSTGRES_USER: gambit
+      POSTGRES_PASSWORD: 316316
     ports:
-      - "5433:5433"  # Открытие порта для PostgreSQL
+      - "5433:5433"  # Открываем внешний порт 5433 для внутреннего порта 5433
+    command: ["postgres", "-c", "port=5433"]  # Переопределяем порт PostgreSQL
     volumes:
-      - postgres_data:/var/lib/postgresql/data  # Хранилище данных PostgreSQL
-
+      - postgres_data:/var/lib/postgresql/data
   web:
     build: .
     command: bash -c "python oppengamer_api/manage.py migrate && python oppengamer_api/manage.py runserver 0.0.0.0:8000"
     volumes:
-      - .:/app  # Синхронизация кода между хостом и контейнером
+      - .:/app
     ports:
-      - "8001:8000"  # Открытие порта для Django
+      - "8001:8000"
     depends_on:
-      - db  # Запуск контейнера Django после PostgreSQL
+      - db
     environment:
-      - DJANGO_SETTINGS_MODULE=oppengamer_api.settings  # Настройки Django
-      - DATABASE_URL=postgres://gambit:316316@db:5433/DB  # URL базы данных
-
+      - DJANGO_SETTINGS_MODULE=oppengamer_api.settings
+      - DATABASE_URL=postgres://gambit:316316@db:5433/DB  # Обратите внимание на измененный порт
 volumes:
-  postgres_data:  # Объем для хранения данных PostgreSQL
+  postgres_data:
