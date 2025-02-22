@@ -1,8 +1,45 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
-from .models import Group, Student
-from .serializers import GroupSerializer, StudentSerializer
+from .models import Group, Student, AttendanceRecord
+from .serializers import GroupSerializer, StudentSerializer, AttendanceRecordSerializer
+
+
+class GetAttendanceByGroup(APIView):
+    def get(self, request, group_id, format=None):
+        try:
+            group = Group.objects.get(id=group_id)
+        except Group.DoesNotExist:
+            return Response({"error": "Group not found"}, status=status.HTTP_404_NOT_FOUND)
+
+        attendance_records = AttendanceRecord.objects.filter(group=group)
+        serializer = AttendanceRecordSerializer(attendance_records, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+class CreateAttendance(APIView):
+    def post(self, request, format=None):
+        student_id = request.data.get("student_id")
+        group_id = request.data.get("group_id")
+
+        # Проверяем существование студента
+        try:
+            student = Student.objects.get(student_id=student_id)
+        except Student.DoesNotExist:
+            return Response({"error": "Student not found"}, status=status.HTTP_404_NOT_FOUND)
+
+        # Проверяем существование группы
+        try:
+            group = Group.objects.get(id=group_id)
+        except Group.DoesNotExist:
+            return Response({"error": "Group not found"}, status=status.HTTP_404_NOT_FOUND)
+
+        # Создаем запись о присутствии
+        attendance_record = AttendanceRecord(group=group, student=student)
+        attendance_record.save()
+
+        serializer = AttendanceRecordSerializer(attendance_record)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 
 class UpdateGroup(APIView):

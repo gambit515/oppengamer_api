@@ -13,3 +13,12 @@ class StudentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Student
         fields = '__all__'  # Все поля модели Student
+
+
+from rest_framework import serializers
+from .models import AttendanceRecord, Student, Group
+
+class AttendanceRecordSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = AttendanceRecord
+        fields = ['id', 'group', 'student', 'timestamp']
