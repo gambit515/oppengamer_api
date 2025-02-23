@@ -6,7 +6,7 @@ from .views import (
     GetGroups,
     CreateGroup,
     CreateAttendance, GetAttendanceByGroup, GetStudentById,
-    GetStudentsByGroup,
+    GetStudentsByGroup, ClearAttendance,
 )
 
 urlpatterns = [
@@ -20,6 +20,7 @@ urlpatterns = [
     path('groups/', GetGroups.as_view(), name='get_groups'),
     path('create_group/', CreateGroup.as_view(), name='create_group'),
     path('group/<int:group_id>/students/', GetStudentsByGroup.as_view(), name='get_students_by_group'),
+    path('attendance/<int:group_id>/clear/', ClearAttendance.as_view(), name='clear_attendance'),
 
     # Маршрут для регистрации присутствия
     path('attendance/', CreateAttendance.as_view(), name='create_attendance'),

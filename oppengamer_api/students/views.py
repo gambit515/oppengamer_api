@@ -131,3 +131,16 @@ class GetStudentsByGroup(APIView):
         students = Student.objects.filter(group=group)
         serializer = StudentSerializer(students, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+class ClearAttendance(APIView):
+    def post(self, request, group_id, format=None):
+        try:
+            group = Group.objects.get(id=group_id)
+        except Group.DoesNotExist:
+            return Response({"error": "Group not found"}, status=status.HTTP_404_NOT_FOUND)
+
+        # Удаляем все записи о присутствии для группы
+        deleted_count, _ = AttendanceRecord.objects.filter(group=group).delete()
+
+        return Response({"message": f"Удалено {deleted_count} записей о присутствии."}, status=status.HTTP_200_OK)
