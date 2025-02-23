@@ -1,8 +1,8 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework import status
-from .models import Group, Student, AttendanceRecord
-from .serializers import GroupSerializer, StudentSerializer, AttendanceRecordSerializer
+from rest_framework import status, viewsets
+from .models import Group, Student, AttendanceRecord, ScheduleTask
+from .serializers import GroupSerializer, StudentSerializer, AttendanceRecordSerializer, ScheduleTaskSerializer
 
 
 class GetAttendanceByGroup(APIView):
@@ -144,3 +144,8 @@ class ClearAttendance(APIView):
         deleted_count, _ = AttendanceRecord.objects.filter(group=group).delete()
 
         return Response({"message": f"Удалено {deleted_count} записей о присутствии."}, status=status.HTTP_200_OK)
+
+
+class ScheduleTaskViewSet(viewsets.ModelViewSet):
+    queryset = ScheduleTask.objects.all()
+    serializer_class = ScheduleTaskSerializer

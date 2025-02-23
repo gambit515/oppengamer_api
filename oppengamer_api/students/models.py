@@ -37,3 +37,29 @@ class AttendanceRecord(models.Model):
 
     def __str__(self):
         return f"{self.student} in {self.group} at {self.timestamp}"
+
+
+class ScheduleTask(models.Model):
+    DAY_CHOICES = [
+        ('monday', 'Monday'),
+        ('tuesday', 'Tuesday'),
+        ('wednesday', 'Wednesday'),
+        ('thursday', 'Thursday'),
+        ('friday', 'Friday'),
+        ('saturday', 'Saturday'),
+        ('sunday', 'Sunday'),
+    ]
+
+    ACTION_CHOICES = [
+        ('start', 'Start Attendance'),
+        ('finalize', 'Finalize Attendance'),
+    ]
+
+    day = models.CharField(max_length=10, choices=DAY_CHOICES)
+    time = models.TimeField()
+    action = models.CharField(max_length=10, choices=ACTION_CHOICES)
+    chat_id = models.BigIntegerField(null=True, blank=True)  # ID чата Telegram
+    group = models.ForeignKey('Group', on_delete=models.SET_NULL, null=True, blank=True)
+
+    def __str__(self):
+        return f"{self.day} {self.time} - {self.action}"

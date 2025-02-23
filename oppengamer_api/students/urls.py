@@ -1,4 +1,6 @@
-from django.urls import path
+from django.urls import path, include
+from rest_framework.routers import DefaultRouter
+
 from .views import (
     GetStudentByTelegramId,
     IsAuthorizedStudent,
@@ -6,8 +8,11 @@ from .views import (
     GetGroups,
     CreateGroup,
     CreateAttendance, GetAttendanceByGroup, GetStudentById,
-    GetStudentsByGroup, ClearAttendance,
+    GetStudentsByGroup, ClearAttendance, ScheduleTaskViewSet
 )
+
+router = DefaultRouter()
+router.register(r'schedule_tasks', ScheduleTaskViewSet, basename='schedule_task')
 
 urlpatterns = [
     # Маршруты для студентов
@@ -25,4 +30,6 @@ urlpatterns = [
     # Маршрут для регистрации присутствия
     path('attendance/', CreateAttendance.as_view(), name='create_attendance'),
     path('attendance/<int:group_id>/', GetAttendanceByGroup.as_view(), name='get_attendance_by_group'),
+
+    path('', include(router.urls)),
 ]

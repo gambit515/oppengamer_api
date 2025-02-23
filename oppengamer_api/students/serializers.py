@@ -1,5 +1,6 @@
 from rest_framework import serializers
-from .models import Group, Student
+from .models import *
+
 
 class GroupSerializer(serializers.ModelSerializer):
     class Meta:
@@ -15,10 +16,13 @@ class StudentSerializer(serializers.ModelSerializer):
         fields = '__all__'  # Все поля модели Student
 
 
-from rest_framework import serializers
-from .models import AttendanceRecord, Student, Group
-
 class AttendanceRecordSerializer(serializers.ModelSerializer):
     class Meta:
         model = AttendanceRecord
         fields = ['id', 'group', 'student', 'timestamp']
+
+
+class ScheduleTaskSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ScheduleTask
+        fields = ['id', 'day', 'time', 'action', 'chat_id', 'group']
