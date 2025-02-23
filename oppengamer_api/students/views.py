@@ -144,17 +144,27 @@ class GetStudentsByGroupAndPatchGroup(APIView):
         students = Student.objects.filter(group=group)
         serializer = StudentSerializer(students, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
-    def patch(self, request, group_id):
+
+    def patch(self, request, group_id, format=None):
         try:
             group = Group.objects.get(id=group_id)
         except Group.DoesNotExist:
             return Response({"error": "Group not found"}, status=status.HTTP_404_NOT_FOUND)
 
-        serializer = GroupSerializer(group, data=request.data, partial=True)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_200_OK)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        # Обновляем поля chat и thread_id
+        chat_id = request.data.get('chat')
+        thread_id = request.data.get('thread_id')
+
+        if chat_id is not None:
+            group.chat = chat_id
+        if thread_id is not None:
+            group.thread_id = thread_id
+
+        group.save()
+
+        # Возвращаем обновленные данные группы
+        serializer = GroupSerializer(group)
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
 
 class ClearAttendance(APIView):

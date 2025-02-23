@@ -3,9 +3,10 @@ from django.db import models
 
 
 class Group(models.Model):
-    name = models.CharField(max_length=255, unique=True)  # Название группы
-    description = models.TextField(blank=True, null=True)  # Описание группы
+    name = models.CharField(max_length=255, unique=True)
+    description = models.TextField(blank=True, null=True)
     chat = models.BigIntegerField(null=True, blank=True)  # ID чата Telegram
+    thread_id = models.BigIntegerField(null=True, blank=True)  # ID темы (топика)
 
     def __str__(self):
         return self.name
