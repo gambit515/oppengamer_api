@@ -1,5 +1,6 @@
 from django.contrib import admin
-from .models import Group, Student, AttendanceRecord
+from .models import Group, Student, AttendanceRecord, ScheduleTask
+
 
 # Регистрация модели Group
 @admin.register(Group)
@@ -35,3 +36,11 @@ class AttendanceRecordAdmin(admin.ModelAdmin):
     def group(self, obj):
         return obj.group.name if obj.group else None  # Отображение названия группы
     group.short_description = 'Group'
+
+
+@admin.register(ScheduleTask)
+class ScheduleTaskAdmin(admin.ModelAdmin):
+    list_display = ('day', 'time', 'action', 'chat_id', 'group')  # Отображаемые поля в списке
+    list_filter = ('day', 'action')  # Фильтры справа
+    search_fields = ('group__name',)  # Поиск по имени группы
+    ordering = ('day', 'time')  # Сортировка по дню и времени
