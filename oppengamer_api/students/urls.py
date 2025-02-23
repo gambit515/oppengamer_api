@@ -8,7 +8,7 @@ from .views import (
     GetGroups,
     CreateGroup,
     CreateAttendance, GetAttendanceByGroup, GetStudentById,
-    GetStudentsByGroup, ClearAttendance, ScheduleTaskViewSet
+    GetStudentsByGroupAndPatchGroup, ClearAttendance, ScheduleTaskViewSet
 )
 
 router = DefaultRouter()
@@ -24,7 +24,7 @@ urlpatterns = [
     # Маршруты для групп
     path('groups/', GetGroups.as_view(), name='get_groups'),
     path('create_group/', CreateGroup.as_view(), name='create_group'),
-    path('group/<int:group_id>/', GetStudentsByGroup.as_view(), name='get_students_by_group'),
+    path('group/<int:group_id>/', GetStudentsByGroupAndPatchGroup.as_view(), name='get_students_by_group'),
     path('attendance/<int:group_id>/clear/', ClearAttendance.as_view(), name='clear_attendance'),
 
     # Маршрут для регистрации присутствия
