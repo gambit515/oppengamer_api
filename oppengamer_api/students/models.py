@@ -58,8 +58,14 @@ class ScheduleTask(models.Model):
     day = models.CharField(max_length=10, choices=DAY_CHOICES)
     time = models.TimeField()
     action = models.CharField(max_length=10, choices=ACTION_CHOICES)
-    chat_id = models.BigIntegerField(null=True, blank=True)  # ID чата Telegram
-    group = models.ForeignKey('Group', on_delete=models.SET_NULL, null=True, blank=True)
+    group = models.ForeignKey('Group', on_delete=models.SET_NULL, null=True, blank=True, related_name='schedule_tasks')
 
     def __str__(self):
         return f"{self.day} {self.time} - {self.action}"
+
+    @property
+    def chat_id(self):
+        """Возвращает chat_id из связанной группы."""
+        if self.group:
+            return self.group.chat
+        return None
