@@ -1,6 +1,16 @@
 from django.contrib import admin
+from guardian.admin import GuardedModelAdmin
+
 from .models import Group, Student, AttendanceRecord, ScheduleTask
 
+class StudentAdmin(GuardedModelAdmin):
+    list_display = ('name', 'surname', 'group')
+
+class ScheduleTaskAdmin(GuardedModelAdmin):
+    list_display = ('day', 'time', 'action', 'group')
+
+admin.site.register(Student, StudentAdmin)
+admin.site.register(ScheduleTask, ScheduleTaskAdmin)
 
 # Регистрация модели Group
 @admin.register(Group)
