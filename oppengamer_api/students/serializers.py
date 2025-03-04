@@ -25,4 +25,4 @@ class AttendanceRecordSerializer(serializers.ModelSerializer):
 class ScheduleTaskSerializer(serializers.ModelSerializer):
     class Meta:
         model = ScheduleTask
-        fields = ['id', 'day', 'time', 'action', 'chat_id', 'group']
+        fields = '__all__'
