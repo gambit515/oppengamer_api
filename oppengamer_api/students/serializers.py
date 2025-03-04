@@ -24,7 +24,6 @@ class AttendanceRecordSerializer(serializers.ModelSerializer):
 
 class ScheduleTaskSerializer(serializers.ModelSerializer):
     thread_id = serializers.CharField(source='group.thread_id', allow_null=True, required=False)
-
     class Meta:
         model = ScheduleTask
-        fields = '__all__'
+        fields = ['id', 'day', 'time', 'action', 'chat_id', 'group', 'thread_id']
